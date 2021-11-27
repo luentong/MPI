@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <mpi.h>
+#include <time.h>
 
 #include "percolate.h"
 
@@ -17,7 +18,8 @@ int main(int argc, char *argv[])
   /*
    *  Define the main arrays for the simulation
    */
-
+  clock_t t;
+  t = clock();
   int old[M+2][N+2], new[M+2][N+2];
 
   /*
@@ -416,6 +418,9 @@ int main(int argc, char *argv[])
        *  cleanest with only a single cluster, but multiple clusters
        *  are useful for debugging.
        */
+      t = clock() - t;
+      double time_taken = ((double)t)/CLOCKS_PER_SEC; // in seconds
+      printf("fun() took %f seconds to execute \n", time_taken);
 
       mapwrite("map.pgm", map, 2);
         }
